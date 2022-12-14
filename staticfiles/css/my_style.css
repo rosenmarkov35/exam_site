@@ -1,0 +1,198 @@
+.nav_items_text_color {
+    color: #F6F8F8;
+}
+
+
+.dropdown-menu {
+    --bs-dropdown-bg: #3e544b;
+}
+
+.dropdown-item {
+    color: #F6F8F8;
+}
+
+.my_footer {
+    width: 100%;
+    background-color: #2f4039;
+    color: white;
+    text-align: center;
+}
+
+/* Добавя анимацийката за елементите от navbar-a */
+
+
+.hover_link {
+    background-image: linear-gradient(
+            to right,
+            #FF7F11,
+            #FF7F11 50%,
+            #F6F8F8 50%
+    );
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link:before {
+    content: '';
+    background: #FF7F11;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link:hover {
+    background-position: 0;
+}
+
+.hover_link:hover::before {
+    width: 100%;
+}
+
+/* Добавя анимацийката за елементите от navbar-a */
+
+/* Добавя анимацийката за елементите от navbar-a ЗА ЖЕНИ */
+
+.hover_link_women {
+    background-image: linear-gradient(
+            to right,
+            #ff066b,
+            #ff066b 50%,
+            #F6F8F8 50%
+    );
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link_women:before {
+    content: '';
+    background: #ff066b;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link_women:hover {
+    background-position: 0;
+}
+
+.hover_link_women:hover::before {
+    width: 100%;
+}
+
+/* Добавя анимацийката за елементите от navbar-a ЗА ЖЕНИ */
+
+/* Добавя анимацийката за елементите от navbar-a ЗА МЪЖЕ */
+
+.hover_link_men {
+    background-image: linear-gradient(
+            to right,
+            #007fdb,
+            #007fdb 50%,
+            #F6F8F8 50%
+    );
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link_men:before {
+    content: '';
+    background: #007fdb;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link_men:hover {
+    background-position: 0;
+}
+
+.hover_link_men:hover::before {
+    width: 100%;
+}
+
+/* Добавя анимацийката за елементите от navbar-a ЗА МЪЖЕ */
+
+/* Добавя анимацийката за елементите от navbar-a ЗА EQUIPMENT */
+
+.hover_link_equipment {
+    background-image: linear-gradient(
+            to right,
+            #ffd711,
+            #ffd711 50%,
+            #F6F8F8 50%
+    );
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link_equipment:before {
+    content: '';
+    background: #ffd711;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    transition: all 0.25s ease-in-out;
+}
+
+.hover_link_equipment:hover {
+    background-position: 0;
+}
+
+.hover_link_equipment:hover::before {
+    width: 100%;
+}
+
+/* Добавя анимацийката за елементите от navbar-a ЗА EQUIPMENT */
+
+
+/* Променя цвета на стрелкичката при drop-down линка */
+
+.nav-link:hover {
+    color: #FF7F11;
+}
+
+.nav-link:focus {
+    color: #F6F8F8;
+}
+
+/* Product card styling */
+

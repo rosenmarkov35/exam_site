@@ -1,0 +1,215 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale">
+    <title>Base</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my_style.css' %}">
+</head>
+<body style="background-color: rgba(117,148,135,0.56)">
+<nav class="navbar navbar-expand-lg sticky-top position-sticky" style="background-color: #2f4039;">
+    <div class="container">
+        <a class="navbar-brand nav_items_text_color hover_link" href="{% url 'index' %}"
+           style="position: relative; left: -40px; font-size: 22px">CaliShop
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+            <div class="btn-group">
+                <a href="{% url 'all equipment' %}" type="button" class="btn"
+                   style="background-color: #7ee185; color: white">Equipment</a>
+                <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        style="background-color: #77cc7d; border-color: #77cc7d;">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'buy second hand' %}">Buy second hand</a></li>
+                    <li><a class="dropdown-item" href="{% url 'sell second hand' %}">Sell second hand</a></li>
+                </ul>
+            </div>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link nav_items_text_color hover_link_men" style="margin-left: 45px" href="#">Men</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link nav_items_text_color hover_link_women" style="margin-left: 15px"
+                       href="#">Women</a>
+                </li>
+            </ul>
+
+
+            <ul class="ms-auto navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav_items_text_color hover_link" href="#" role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Profile
+                    </a>
+                    <ul class="dropdown-menu">
+                        {#                        TODO: If user isn't logged in show only Register and Login as options#}
+                        {#                        TODO: Else show 1. Profile Info 2. Purchases 3. Logout#}
+                        {% if not request.user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Log in</a></li>
+                        {% endif %}
+
+                        {% if request.user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile details' %}">Profile
+                                Details</a></li>
+                            <li><a class="dropdown-item" href="{% url 'shopping cart' %}">Shopping Cart</a></li>
+                        {% endif %}
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+{# Product Card #}
+{##}
+{#<div class="card" style="width: 14rem; left: 5%; top: 60px">#}
+{#    <img src="{% static 'images/pic1.webp' %}" class="card-img-top" alt="...">#}
+{#    <div class="card-body">#}
+{#        <h5 class="card-title">Card title</h5>#}
+{#        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's#}
+{#            content.</p>#}
+{#        <a href="#" class="btn btn-primary">Go somewhere</a>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{# Product Card #}
+{#<p>#}
+{##}
+{##}
+{#    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut venenatis viverra ipsum. Sed sollicitudin odio mauris,#}
+{#    ac congue lacus sollicitudin vel. Nunc et tortor arcu. Maecenas sapien nisl, cursus in convallis vel, congue vel#}
+{#    justo. In auctor velit eget justo auctor viverra. Mauris consectetur convallis nibh vel facilisis. Pellentesque#}
+{#    habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus tincidunt pellentesque#}
+{#    nisi, pharetra hendrerit tellus. Sed feugiat sodales arcu at sollicitudin. Nullam sit amet nunc vitae erat congue#}
+{#    ultricies. Quisque semper euismod rutrum.#}
+{##}
+{#    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce at imperdiet nibh,#}
+{#    feugiat posuere metus. Pellentesque eget condimentum felis, nec dapibus dolor. Integer eros dui, iaculis vitae#}
+{#    libero ac, auctor sodales turpis. Ut sagittis neque erat, ut cursus nibh vulputate nec. Suspendisse at leo vel velit#}
+{#    accumsan condimentum. Ut non libero nec lorem sollicitudin fermentum. Nullam ac quam mi. Class aptent taciti#}
+{#    sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.#}
+{##}
+{#    Phasellus tincidunt lacinia neque quis luctus. Nunc porta mi nec justo commodo pretium. Ut ultricies ante at enim#}
+{#    commodo volutpat. Sed venenatis vitae erat id lobortis. Donec luctus fringilla hendrerit. Integer ac nisl dictum,#}
+{#    placerat felis non, fermentum ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id ornare nunc, et#}
+{#    mollis lectus.#}
+{##}
+{#    Ut turpis est, iaculis in mi vitae, venenatis faucibus dui. Duis massa purus, vulputate ut iaculis quis, cursus et#}
+{#    urna. Duis ornare ligula at malesuada volutpat. Phasellus sit amet interdum enim. In hac habitasse platea dictumst.#}
+{#    Cras semper nulla porta, tristique arcu sit amet, iaculis turpis. Vestibulum ante ipsum primis in faucibus orci#}
+{#    luctus et ultrices posuere cubilia curae; Mauris imperdiet nunc sed massa ultricies congue.#}
+{##}
+{#    Donec eu justo feugiat ex dignissim placerat. Integer euismod odio lacus, sed condimentum dolor viverra at. Sed#}
+{#    rhoncus, quam quis blandit tincidunt, sem leo semper metus, eu euismod nisl sapien id elit. Nam sed magna nibh. Orci#}
+{#    varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam ac velit a eros suscipit#}
+{#    gravida. Nam feugiat iaculis ex, ut fringilla nisl tempor et. Aenean a nibh a ex fermentum vestibulum. Donec iaculis#}
+{#    tellus eget congue elementum. Cras pretium maximus nisl eget rhoncus. Suspendisse odio libero, convallis eu neque#}
+{#    sed, posuere convallis lectus. Curabitur eu semper eros. Ut condimentum auctor libero, in posuere ipsum. Nam#}
+{#    facilisis semper nisi. Duis fringilla bibendum eros, ut ornare ante porttitor sed. Phasellus pharetra nec ipsum id#}
+{#    semper.#}
+{##}
+{#    Vivamus quis diam molestie, placerat elit non, bibendum metus. Etiam ultrices ornare nunc, eu facilisis odio tempor#}
+{#    ut. Nunc tincidunt erat vel euismod mollis. Integer pulvinar feugiat est, id semper tellus iaculis eget. Praesent#}
+{#    sed ex eros. Duis ipsum nunc, sagittis sit amet urna a, tincidunt porta lectus. Donec sed ex tristique, pulvinar#}
+{#    elit in, ultrices metus.#}
+{##}
+{#    In hac habitasse platea dictumst. Nullam fringilla in massa et varius. Vestibulum bibendum aliquam mi sit amet#}
+{#    varius. Praesent efficitur odio odio, id pellentesque felis auctor sit amet. Nam faucibus sed risus eget elementum.#}
+{#    Nam in efficitur velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.#}
+{#    Ut erat nulla, lobortis in dolor nec, pulvinar imperdiet dolor.#}
+{##}
+{#    Vestibulum a leo quis mi euismod tristique. Phasellus nec lectus consequat, interdum est id, malesuada enim. Donec#}
+{#    vel ex quis quam consectetur pulvinar vel vitae lectus. Suspendisse pulvinar dolor sed venenatis cursus. Quisque#}
+{#    luctus ac dui sit amet tincidunt. Duis ullamcorper venenatis imperdiet. Vestibulum fermentum odio non rhoncus#}
+{#    pellentesque. Mauris id quam quis eros condimentum sagittis. Maecenas ut mauris vel neque sodales malesuada. Nam#}
+{#    tincidunt mattis erat, sit amet venenatis purus bibendum fermentum. Nam imperdiet vehicula nunc, vel feugiat neque#}
+{#    condimentum sit amet. Sed vitae bibendum leo. Sed eget quam ac dui ornare laoreet. In iaculis dui felis, non sodales#}
+{#    ligula fermentum et. Nam suscipit purus ut tellus tincidunt, sit amet ullamcorper est accumsan. Pellentesque sed#}
+{#    ipsum vitae nisl tristique iaculis.#}
+{##}
+{#    Proin facilisis diam et ipsum varius, et egestas velit rutrum. Quisque dignissim tempor sodales. Nullam ornare, eros#}
+{#    vel euismod aliquam, erat nunc feugiat ipsum, ac rutrum erat metus non metus. Proin non risus enim. Ut mollis sem#}
+{#    vitae libero egestas ultrices at ut diam. Donec vehicula dapibus dui eget ornare. Phasellus nec lacus odio.#}
+{#    Curabitur in velit sit amet purus placerat porttitor.#}
+{##}
+{#    Curabitur scelerisque tempor justo vitae aliquam. Nulla facilisi. Donec non ultrices dolor. Suspendisse potenti.#}
+{#    Etiam id elit vel urna posuere volutpat. Donec sit amet erat malesuada, euismod sapien vel, feugiat risus. Nullam#}
+{#    vehicula ultricies rhoncus. Aliquam eget sem et turpis posuere maximus a vel tellus. Ut lacinia augue aliquam ipsum#}
+{#    iaculis, at porttitor elit elementum. Vivamus convallis et nulla vitae pretium. Duis sed quam id risus feugiat#}
+{#    ullamcorper.#}
+{##}
+{#    Curabitur elementum ante in varius vehicula. Nullam ultrices nisi sit amet facilisis dignissim. Phasellus a nisi#}
+{#    dictum, tristique lorem ornare, consectetur nibh. Fusce odio sapien, efficitur sed consequat at, tempus ut sem. Ut#}
+{#    facilisis consequat odio, ut porta quam. Duis aliquet purus nec massa vulputate placerat. Phasellus nisl libero,#}
+{#    fringilla lobortis tincidunt at, tristique vitae odio.#}
+{##}
+{#    Nullam in est diam. Vestibulum et accumsan erat. Nunc orci lectus, feugiat nec felis at, lacinia porta risus. Sed eu#}
+{#    purus tempor, faucibus erat nec, pharetra diam. Donec quis ipsum est. Proin id augue orci. Pellentesque quis dui at#}
+{#    arcu gravida fringilla a sed dui. Suspendisse semper, ex vestibulum faucibus feugiat, massa quam consequat felis,#}
+{#    quis viverra ex libero tincidunt felis. Pellentesque placerat consequat velit, et feugiat dolor malesuada sed.#}
+{#    Praesent quis eleifend turpis. Sed gravida enim at mi viverra dapibus.#}
+{##}
+{#    Sed sem mauris, consectetur quis sem ut, fermentum porttitor lectus. Vivamus placerat congue eros a placerat.#}
+{#    Vestibulum fringilla orci orci, et viverra enim semper suscipit. In et tempus justo. Integer eu egestas felis.#}
+{#    Vestibulum euismod malesuada magna pharetra dapibus. Etiam ut ante et neque aliquam feugiat ac at ex. Phasellus#}
+{#    massa orci, viverra varius faucibus in, venenatis et tortor. In congue pellentesque eros. Morbi efficitur a odio#}
+{#    eget mattis. Praesent sit amet ante ac turpis accumsan lacinia. Praesent elementum elit arcu, et varius elit rutrum#}
+{#    id. Maecenas non tincidunt libero. Nullam semper libero eu viverra elementum.#}
+{##}
+{#    Pellentesque lacinia leo diam, quis bibendum nunc mattis et. Vestibulum ante ipsum primis in faucibus orci luctus et#}
+{#    ultrices posuere cubilia curae; Suspendisse a nisl aliquet, cursus eros ut, feugiat tellus. Nulla varius vel velit#}
+{#    in tristique. Donec non quam congue, sagittis tellus quis, ornare arcu. Pellentesque pellentesque lectus quam, non#}
+{#    eleifend dui facilisis a. Integer pulvinar est vitae efficitur fringilla.#}
+{##}
+{#    Praesent quis posuere quam. Etiam ut leo tincidunt, tincidunt nisi sit amet, imperdiet tellus. Morbi eu velit#}
+{#    ultricies, pharetra metus eu, fringilla purus. Proin euismod purus quis nisl congue, eu euismod ipsum consectetur.#}
+{#    Nam dapibus odio sem. Donec finibus bibendum pellentesque. Etiam nisi est, varius non cursus at, dignissim at leo.#}
+{#    Donec in consequat lorem. Etiam vel sapien sit amet tellus tempor tincidunt. Ut cursus augue a dui convallis, sed#}
+{#    ultrices tellus eleifend. Mauris et arcu vitae eros elementum vehicula.#}
+{#</p>#}
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+
+<div class="my_footer" style="margin-top: 100px;">
+    <footer>
+    <span>
+        Inspired by
+        © <a href="https://www.gornation.com" style="color: #72e027; text-decoration: none">Gornation.com</a>
+        <a href="https://www.gornation.com/policies/terms-of-service" style="color: #72e027; text-decoration: none">|
+            Terms and conditions</a>
+    </span>
+        <p>
+            Contact us:
+            <br>
+            <img src="{% static 'images/dial-pad.png' %}" style="width: 2%; height: auto" alt="Mobile number">
+            012 345 6789 |
+            examplemail123@gmail.com
+            <img src="{% static 'images/email.png' %}" style="width: 1.3%; height: auto; margin-left: 5px" alt="Email">
+        </p>
+    </footer>
+</div>
+
+</body>
+</html>

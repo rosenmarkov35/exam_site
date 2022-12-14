@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+    h5 {
+        color: #56a7ea
+    }
+
+    h5 strong {
+        color: #595959
+    }
+    </style>
+    <div class="container rounded text-center"
+         style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);width: 500px;
+          margin-top: 50px; background-color: white; padding: 30px;">
+        <div class="rounded"
+             style="height: 50px; margin-bottom: 20px ;padding: 10px ;color: rgba(0,0,0,0.65); background-color: white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <h5><strong>Username:</strong> {{ request.user.username }}</h5>
+        </div>
+        <div class="rounded"
+             style="margin-bottom: 20px ;padding: 10px ;color: rgba(0,0,0,0.65); background-color: white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <h5><strong>First Name:</strong> {{ request.user.first_name }}</h5>
+        </div>
+        <div class="rounded"
+             style="margin-bottom: 20px ;padding: 10px ;color: rgba(0,0,0,0.65); background-color: white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <h5><strong>Last Name:</strong> {{ request.user.last_name }}</h5>
+        </div>
+        <div class="rounded"
+             style="margin-bottom: 20px ;padding: 10px ;color: rgba(0,0,0,0.65); background-color: white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <h5><strong>Email:</strong> {{ request.user.email }}</h5>
+        </div>
+        <div class="rounded"
+             style="margin-bottom: 20px ;padding: 10px ;color: rgba(0,0,0,0.65); background-color: white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <h5><strong>Location:</strong> {{ request.user.profile.location }}</h5>
+        </div>
+    </div>
+{% endblock %}
