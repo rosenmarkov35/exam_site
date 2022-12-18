@@ -1,0 +1,144 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block content %}
+
+    <style>
+        .star {
+            width: 10%;
+        }
+    </style>
+
+    <div class="container">
+
+        <div class="mx-auto"
+             style="width: 300px; margin-top: 50px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div class="rounded" style="width: inherit; margin-top: 50px; height: 120px; background-color: #ffffff">
+                <h3 class="text-center text" style="position: relative; top: 14px">
+                    {{ product.product_name }}
+                </h3>
+                <h4 class="text-center text" style="position: relative; top: 20px">
+                    Price:
+                    {{ product.product_price | stringformat:".2f" }}$
+                </h4>
+            </div>
+            <img src="{{ product.product_image }}" alt="" style="width: inherit;">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                            Details
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                         aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            {{ product.product_details }}
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseTwo">
+                            Description
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                         aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            {{ product.product_description }}
+                        </div>
+                    </div>
+                    {% if not request.user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-primary" disabled style="margin-bottom: 20px;
+                         margin-top: 50px; margin-left: 31%; box-shadow: 0px 0px 40px 1px #0d6efd;">Add to cart
+                        </button>
+                        <h6 class="text-center" style="color: #595959; margin-bottom: 15px; margin-top: 7px">You cannot
+                            add to your cart, because you are not logged in.</h6>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'add to cart' pk=product.pk %}" class="btn btn-primary" style="margin-bottom: 20px;
+                         margin-top: 50px; margin-left: 31%; background-color: #62b78f;
+                border-color: #62b78f;  box-shadow: 0px 0px 40px 1px #7ad3a9;">Add to cart
+                        </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+        <div class="container rounded" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+         0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 850px; height: 526px;
+          margin-top: 50px; background-color: white; padding: 30px;">
+            <div class="row">
+                <div class="col-3">
+                    <div class="container rounded" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                     0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 250px; height: 380px;
+          background-color: white; margin-left: 20px; padding: 30px;">
+                        <h4 style="color: #595959" class="text-center">Average product
+                            rating: {{ avg_review_stars | stringformat:".2f" }} stars</h4>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="container rounded" data-bs-spy="scroll" tabindex="0"
+                         style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                     0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 450px; overflow-y: scroll; height: 380px;
+          background-color: white; margin-left: 120px; padding: 30px;">
+                        <h4 class="text-center" style="color: #595959">Total reviews: {{ reviews.count }}</h4>
+                        {% for review in reviews %}
+                            <div class="card mx-auto" style="width: 18rem; margin-top: 20px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Review by: {{ review.user.username }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ review.star_rating }} of 5 stars</h6>
+                                    <p class="card-text">{{ review.review_text }}</p>
+                                    {% if review.star_rating == 1 %}
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                    {% endif %}
+                                    {% if review.star_rating == 2 %}
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                    {% endif %}
+                                    {% if review.star_rating == 3 %}
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+
+                                    {% endif %}
+                                    {% if review.star_rating == 4 %}
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                    {% endif %}
+                                    {% if review.star_rating == 5 %}
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                        <img class="star" src="{% static 'images/star.png' %}" alt="star">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'create review' pk=product.pk %}" class="btn btn-primary" style="margin-left: 40%; background-color: #62b78f;
+                border-color: #62b78f; margin-top: 30px; box-shadow: 0px 0px 40px 1px #7ad3a9;">Write Review</a>
+            {% else %}
+                <a href="{% url 'create review' pk=product.pk %}" class="btn btn-primary disabled" style="margin-left: 40%; background-color: #62b78f;
+                border-color: #62b78f; margin-top: 30px; box-shadow: 0px 0px 40px 1px #7ad3a9;">Write Review</a>
+                <h5 style="margin-left: 21%; margin-top: 12px; color: #595959">You can't write a review, without being logged in.</h5>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+{% endblock %}

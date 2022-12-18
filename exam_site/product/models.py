@@ -30,3 +30,9 @@ class Product(models.Model):
         blank=True,
     )
 
+    made_for = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+    )
+

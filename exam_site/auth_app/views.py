@@ -1,53 +1,19 @@
-from django import forms, views
+from django import views
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm, UsernameField, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import TemplateView
 
-from exam_site.auth_app.models import Profile
-
-
-# REGISTRATION ONLY
-
-class ProfileCreationForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['location']
-
-        widgets = {
-            'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required.'}),
-        }
+from exam_site.auth_app.forms import CustomUserCreationForm, ProfileCreationForm, UpdateUserForm, UpdateProfileForm, \
+    CustomAuthForm
+from exam_site.auth_app.models import Cart, CartItems
+from exam_site.product.models import Product
 
 
-class CustomUserCreationForm(UserCreationForm):
-
-    def __init__(self, *args, **kwargs):
-        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-
-        for fieldname in ['username', 'password1', 'password2']:
-            self.fields[fieldname].help_text = None
-        self.fields['password1'].widget.attrs['class'] = 'form-control'
-        self.fields['password1'].widget.attrs[
-            'placeholder'] = 'Think of a strong password! | at least 8 characters with letters.'
-        self.fields['password2'].widget.attrs['placeholder'] = 'Re-enter the password above.'
-        self.fields['password2'].widget.attrs['class'] = 'form-control'
-
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
-        field_classes = {'username': UsernameField}
-
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'name@example.com'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ''}),
-        }
+# REGISTRATION SECTION  REGISTRATION SECTION  REGISTRATION SECTION  REGISTRATION SECTION
+# \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 
 class CreateUserProfileView(views.View):
@@ -59,7 +25,17 @@ class CreateUserProfileView(views.View):
             user = user_form.save()
             profile = profile_form.save(commit=False)
 
+            cart = Cart(status='active')
+
+            cart_items = CartItems(cart=cart)
+
             profile.user = user
+            profile.save()
+
+            cart.user = user
+            cart.save()
+            cart_items.save()
+
             messages.success(request, 'Your profile was successfully created!')
             return redirect('index')
 
@@ -75,58 +51,101 @@ class CreateUserProfileView(views.View):
             'profile_form': profile_form
         })
 
-    # class CreateProfileView(CreateView):
-    #     template_name = 'auth/register.html'
-    #     form_class = CustomUserCreationForm
-    #     success_url = reverse_lazy('index')
-    #     extra_context = {
+
+# REGISTRATION SECTION END  REGISTRATION SECTION END  REGISTRATION SECTION END  REGISTRATION SECTION END
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-# REGISTRATION ONLY
+# UPDATE SECTION  UPDATE SECTION  UPDATE SECTION  UPDATE SECTION  UPDATE SECTION
+# \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 
-# LOGIN ONLY
+class EditProfileView(views.View):
+    @staticmethod
+    def post(request, *args, **kwargs):
+        user_form = UpdateUserForm(request.POST, instance=request.user)
 
-class CustomAuthForm(AuthenticationForm):
-    username = UsernameField(widget=forms.TextInput(attrs={"autofocus": True, 'class': 'form-control'}))
-    password = forms.CharField(
-        label="Password",
-        strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "current-password", 'class': 'form-control'}),
-    )
+        profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
 
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+
+            messages.success(request, 'Your profile is updated successfully')
+
+            return redirect('profile details')
+
+    @staticmethod
+    def get(request, *args, **kwargs):
+        user_form = UpdateUserForm(instance=request.user)
+
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+        return render(request, 'auth/edit_profile.html', context={
+            'user_form': user_form,
+            'profile_form': profile_form,
+        })
+
+
+# UPDATE SECTION END  UPDATE SECTION END  UPDATE SECTION END  UPDATE SECTION END  UPDATE SECTION END
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+# LOGIN & LOGOUT SECITION  LOGIN & LOGOUT SECITION  LOGIN & LOGOUT SECITION  LOGIN & LOGOUT SECITION
+# \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 class CustomLoginView(LoginView):
     template_name = 'auth/login.html'
     authentication_form = CustomAuthForm
 
 
-# LOGIN ONLY
-
-
-# LOGOUT ONLY
-
 class MyLogoutView(LogoutView):
     next_page = reverse_lazy('index')
 
 
-# LOGOUT ONLY
+class LogoutConfirmationView(TemplateView):
+    template_name = 'auth/logout.html'
 
 
-# PROFILE DETAILS ONLY
+# LOGIN & LOGOUT SECITION END  LOGIN & LOGOUT SECITION END  LOGIN & LOGOUT SECITION END  LOGIN & LOGOUT SECITION END
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+# SHOPPING CART SECTION  SHOPPING CART SECTION  SHOPPING CART SECTION  SHOPPING CART SECTION
+# \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+
+class ShoppingCartView(TemplateView):
+    template_name = 'auth/shopping_cart.html'
+    extra_context = {}
+
+
+def add_to_cart_view(request, pk):  # This pk is the pk of the product we want to add to the cart.
+    product_to_add = Product.objects.get(pk=pk)
+    request.user.cart.cartitems.product.add(product_to_add)
+    return redirect(request.META['HTTP_REFERER'])
+
+
+def clear_cart(request):
+    cart_to_clear = request.user.cart.cartitems
+    cart_to_clear.product.clear()
+    return redirect(request.META['HTTP_REFERER'])
+
+
+def view_shopping_cart(request):
+    all_products_added_to_cart = request.user.cart.cartitems.product.all()
+    total_price = 0
+    for product in all_products_added_to_cart:
+        total_price += product.product_price
+    context = {
+        'added_products': all_products_added_to_cart,
+        'total_price': total_price,
+    }
+    return render(request, 'auth/shopping_cart.html', context)
+
+
+# SHOPPING CART SECTION END  SHOPPING CART SECTION END  SHOPPING CART SECTION END  SHOPPING CART SECTION END
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 class ProfileDetailsView(LoginRequiredMixin, TemplateView):
     template_name = 'auth/profile_details.html'
-
-
-# class BookDetailView(View):
-#     def get(self, request, *args, **kwargs):
-#         book = get_object_or_404(Book, pk=kwargs['pk'])
-#         context = {'book': book}
-#         return render(request, 'books/book_detail.html', context)
-# PROFILE DETAILS ONLY
-
-class ShoppingCartView(TemplateView):
-    template_name = 'shopping_cart.html'
-    extra_context = {}
-

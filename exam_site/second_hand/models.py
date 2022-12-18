@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -28,4 +29,10 @@ class SecondHandProduct(models.Model):
         auto_now=True,
         null=False,
         blank=False,
+    )
+
+    uploaded_by = models.OneToOneField(
+        User,
+        null=True,
+        on_delete=models.CASCADE,
     )

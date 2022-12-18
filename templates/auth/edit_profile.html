@@ -1,27 +1,16 @@
 {% extends 'common/base.html' %}
 {% block content %}
-    <style>
-        ::selection {
-        color: #62b78f;
-        background: none;
-    }
-
-        body {
-            color: #35855f;
-        }
-    </style>
     <div class="container rounded"
          style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);width: 590px;
           margin-top: 50px; background-color: white; padding: 30px;">
         <div class="rounded"
              style="margin-bottom: 20px ;padding: 10px ;color: rgba(0,0,0,0.65); background-color: white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            <h5>You can
-                browse our products without a registration.<br>
-                Registration is <strong>required</strong> to <strong>purchase</strong> products, or
-                <strong>sell</strong> second hand products.</h5>
+            <h5>You can only change your <strong>username</strong>, <strong>email</strong> and <strong>location</strong>.
+
+            </h5>
         </div>
 
-        <form method="post" action="{% url 'register' %}">
+        <form method="post" action="{% url 'edit profile' %}">
             {{ user_form.as_p }}
             {{ profile_form.as_p }}
             <button type="submit" class="btn btn-primary" style="margin-left: 40%; background-color: #62b78f;
@@ -30,5 +19,4 @@
             {% csrf_token %}
         </form>
     </div>
-
 {% endblock %}

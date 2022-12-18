@@ -1,18 +1,17 @@
 {% extends 'common/base.html' %}
 {% block content %}
     <div class="container d-sm-flex flex-sm-wrap" style="margin-top: 60px">
-        {% for product in second_hand_products %}
+        {% for product in products %}
             <div class="card"
                  style="width: 15rem; margin: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-                <img src="{{ product.second_hand_product_image }}" class="card-img-top" alt="...">
+                <img src="{{ product.product_image }}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{ product.second_hand_product_name }}</h5>
-                    <p class="card-text">{{ product.second_hand_product_description }}</p>
-                    <a href="{% url 'second hand details' pk=product.pk %}" class="btn btn-primary"
+                    <h5 class="card-title">{{ product.product_name }}</h5>
+                    <p class="card-text">{{ product.product_details }}</p>
+                    <a href="{% url 'product details' pk=product.pk %}" class="btn btn-primary"
                        style="margin-left: 31%; background-color: #F6EFA6; color: #112A46; border-color: #c5c088; border-width: 1px;">Details</a>
                 </div>
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}

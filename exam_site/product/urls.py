@@ -1,10 +1,11 @@
 from django.urls import path
 
-from exam_site.product.views import ProductDetailsView, AllEquipment
-
-# from exam_site.product.views import product_details
+from exam_site.product.views import AllEquipment, product_details_view, WomenEquipment, MenEquipment
 
 urlpatterns = [
-    path('<int:pk>/', ProductDetailsView.as_view(), name='product details'),
+    path('<int:pk>/', product_details_view, name='product details'),
     path('equipment/', AllEquipment.as_view(), name='all equipment'),
+
+    path('equipment/women/', WomenEquipment.as_view(), name='women equipment'),
+    path('equipment/men/', MenEquipment.as_view(), name='men equipment'),
 ]

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'exam_site.product',
     'exam_site.second_hand',
     'exam_site.auth_app',
+    'exam_site.review',
 ]
 
 MIDDLEWARE = [

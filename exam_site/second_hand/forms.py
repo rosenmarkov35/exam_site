@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 
 from exam_site.second_hand.models import SecondHandProduct
 
@@ -20,4 +21,18 @@ class SecondHandSellForm(forms.ModelForm):
             'name': 'Pet Name',
             'date_of_birth': 'Date of Birth',
             'pet_photo': 'Link to Image',
+        }
+
+
+class SellSecondHandProductsForm(ModelForm):
+    class Meta:
+        model = SecondHandProduct
+        fields = ('second_hand_product_name', 'second_hand_product_image', 'second_hand_product_price',
+                  'second_hand_product_description')
+
+        widgets = {
+            'second_hand_product_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'second_hand_product_image': forms.TextInput(attrs={'class': 'form-control'}),
+            'second_hand_product_price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'second_hand_product_description': forms.Textarea(attrs={'class': 'form-control'}),
         }

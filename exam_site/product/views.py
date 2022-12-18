@@ -1,42 +1,55 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import View
+from django import views
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
-from exam_site.auth_app.models import Cart
 from exam_site.product.models import Product
 
 
 class ProductDetailsView(DetailView):
     model = Product
-    template_name = 'product_details.html'
+    template_name = 'product/product_details.html'
     context_object_name = 'product'
+
+
+def product_details_view(request, pk):  # Where pk is the pk of the product that we want the details of.
+    the_product = Product.objects.get(pk=pk)
+    reviews_of_product = the_product.review_set.all()
+    avg_review_stars = []
+    for review in reviews_of_product:
+        avg_review_stars.append(review.star_rating)
+    if avg_review_stars:
+        avg_review_stars = sum(avg_review_stars) / len(avg_review_stars)
+    else:
+        avg_review_stars = 0
+    context = {
+        'product': the_product,
+        'reviews': reviews_of_product,
+        'avg_review_stars': avg_review_stars,
+    }
+    return render(request, 'product/product_details.html', context)
 
 
 class AllEquipment(ListView):
     context_object_name = 'products'
     model = Product
-    template_name = 'equipment.html'
+    template_name = 'equipment/equipment.html'
 
 
-class AddToCartView(View):
-    @staticmethod
-    def post(request, *args, **kwargs):
-        user = request.user
-        item = get_object_or_404(Product, pk=kwargs['pk'])
-
-        try:
-            cart = Cart.objects.get(user=user, item=item)
-            cart.quantity += 1
-        except Cart.DoesNotExist:
-            cart = Cart(user=user, item=item)
-
-        cart.save()
-        return redirect('shopping cart')
-
-
-class CartView(View):
+class MenEquipment(views.View):
     @staticmethod
     def get(request, *args, **kwargs):
-        user = request.user
-        items = Cart.objects.filter(user=user)
-        return render(request, 'shopping_cart.html', {'items': items})
+        made_for_men = Product.objects.filter(made_for='men').all()
+
+        return render(request, 'equipment/men_equipment.html', context={
+            'products': made_for_men,
+        })
+
+
+class WomenEquipment(views.View):
+    @staticmethod
+    def get(request, *args, **kwargs):
+        made_for_women = Product.objects.filter(made_for='women').all()
+
+        return render(request, 'equipment/women_equipment.html', context={
+            'products': made_for_women,
+        })
