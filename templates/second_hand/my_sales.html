@@ -1,0 +1,31 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    <div class="container rounded"
+         style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);width: 1090px;
+          margin-top: 50px; background-color: white; padding: 30px;">
+        {% if all_sales %}
+
+
+            {% for sale in all_sales %}
+                <div class="card" style="width: 14rem;">
+                    <img src="{{ sale.second_hand_product_image }}" class="card-img-top" alt="image expected">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sale.second_hand_product_name }}</h5>
+                        <p class="card-text">{{ sale.second_hand_product_description }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Price: {{ sale.second_hand_product_price | stringformat:".2f" }} $
+                        </li>
+                        <li class="list-group-item">{{ sale.second_hand_uploaded_on }}</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="{% url 'remove from sales' pk=sale.pk %}" class="btn bg-danger text-white"
+                           style="margin-left: 13px">Remove from sales</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h2 class="text-center" style="color: #595959">You have no active sales.</h2>
+        {% endif %}
+    </div>
+{% endblock %}

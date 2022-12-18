@@ -1,0 +1,19 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    <div class="card" style="width: 14rem;">
+        <img src="{{ review.product.product_image }}" class="card-img-top" alt="image expected">
+        <div class="card-body">
+            <h5 class="card-title">{{ review.product.product_name }}</h5>
+            <p class="card-text">{{ review.review_text }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Rated: {{ review.star_rating }} out of 5 stars.
+            </li>
+            <li class="list-group-item">{{ review.product.product_price }}</li>
+        </ul>
+        <div class="card-body">
+            <a href="{% url 'remove review' pk=review.pk %}" class="btn bg-danger text-white"
+               style="margin-left: 13px">Remove review</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    <div class="container rounded flex-sm-wrap"
+         style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);width: 1090px;
+          margin-top: 50px; background-color: white; padding: 30px;">
+
+        {% if all_my_reviews %}
+
+            <div class="container d-sm-flex flex-sm-wrap" style="margin-top: 20px">
+                {% for review in all_my_reviews %}
+                    <div class="card" style="width: 14rem; margin-right: 20px; margin-bottom: 10px; position: relative">
+                        <img src="{{ review.product.product_image }}" class="card-img-top" alt="image expected">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.product.product_name }}</h5>
+                            <p class="card-text">{{ review.review_text }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Rated: {{ review.star_rating }} out of 5 stars.
+                            </li>
+                            <li class="list-group-item">{{ review.product.product_price }}</li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="{% url 'remove review' pk=review.pk %}" class="btn bg-danger text-white"
+                               style="margin-left: 13px">Remove review</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2 class="text-center" style="color: #595959">You have no reviews.</h2>
+        {% endif %}
+    </div>
+{% endblock %}
